@@ -4,10 +4,10 @@ note that node has to be Node.active == True in order to be used in first place
 in future this might scan donation address for donations and activate accordingly
 '''
 
-from app import db
+from app import db, app
 from app.models import Node
 
-NODES_TO_TRACK = ['http://62.113.207.190:7890']
+NODES_TO_TRACK = app.config['NODES_TO_TRACK']
 
 def activateTopImportanceNodes(no_of_nodes_to_track):
     nodes_to_track = Node.query\

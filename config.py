@@ -17,6 +17,11 @@ class Config(object):
     GRAPH_COLORS = ['rgb(57,106,177)','rgb(218,124,48)','rgb(62,150,81)','rgb(204,37,41)','rgb(83,81,84)','rgb(107,76,154)','rgb(146,36,40)','rgb(148,139,61)']
 
     '''
+    activateNodesForTracking
+    '''
+    NODES_TO_TRACK = ['http://62.113.207.190:7890']
+
+    '''
     updateNodeState config
 
     trusted nodes to be  uses as seed/dafault/most trusted/lowest ping nodes
