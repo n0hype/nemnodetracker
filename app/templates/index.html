@@ -1,0 +1,165 @@
+
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="wrapper">
+
+  <h2>NODE MONITOR</h2>
+  <canvas id="nodeMonitorChart" width="1600" height="900"></canvas>
+
+</div>
+
+<script>
+  function newDateString(datetime_iso) {
+      return moment(datetime_iso, moment.ISO_8601).format();
+  }
+
+  var nodeMonitorData = {
+    labels : [{% for item in network_node_state_data[0] %}
+               newDateString( "{{item}}" ),
+              {% endfor %}],
+    datasets: [
+
+      {
+        data: {{network_node_state_data[1]}},
+        label: "0 importance nodes",
+        yAxisID: 'L',
+        borderColor: "{{ colors[range(0, colors|length) | random] }}" ,
+        fill: false
+      },
+      {
+        data: {{network_node_state_data[2]}},
+        label: "non0 importance nodes",
+        yAxisID: 'L',
+        borderColor: "{{ colors[range(0, colors|length) | random] }}" ,
+        fill: false
+      },
+      {
+        data: {{network_node_state_data[3]}},
+        label: "booted importance sum",
+        yAxisID: 'R',
+        borderColor: "{{ colors[range(0, colors|length) | random] }}" ,
+        fill: false
+      },
+    ]
+  }
+
+  var ctx = document.getElementById("nodeMonitorChart");
+
+  var nodeMonitorChart = new Chart(ctx, {
+    type: 'line',
+    data: nodeMonitorData,
+    options: {
+      legend: {
+          display: true,
+          position: 'top',
+          // labels: {
+          //     fontColor: 'rgb(255, 99, 132)'
+          // }
+      },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear',
+                time: {
+                    unit: 'day',
+                    displayFormats: {
+                        day: 'MMM D'
+                    }
+                }
+            }],
+            yAxes: [{
+              id: 'L',
+              position: 'left',
+              scaleLabel: {
+                display: true,
+                labelString: "Number of nodes reachable"
+              }
+            },{
+              id: 'R',
+              position: 'right',
+              scaleLabel: {
+                display: true,
+                labelString: "Booted importance sum"
+              }
+            }]
+        }
+    }
+  });
+
+</script>
+
+
+
+<div class="wrapper">
+
+  <h2>Block heights of guys who pay me for tracking</h2>
+  <canvas id="nodeHeightsChart" width="1600" height="900"></canvas>
+
+</div>
+
+<script>
+  function newDateString(datetime_iso) {
+      return moment(datetime_iso, moment.ISO_8601).format();
+  }
+
+  var nodeHeightsData = {
+    labels : [{% for item in node_heights_data[0] %}
+               newDateString( "{{item}}" ),
+              {% endfor %}],
+    datasets: [
+      {% for item in node_heights_data[1] %}
+      {
+        data: {{item[1]}},
+        label: "{{item[0]}}",
+        borderColor: "{{ colors[range(0, colors|length) | random] }}" ,
+        fill: false
+      },
+      {% endfor %}
+
+    ]
+  }
+
+  var ctx = document.getElementById("nodeHeightsChart");
+
+  var nodeHeightsChart = new Chart(ctx, {
+    type: 'line',
+    data: nodeHeightsData,
+    options: {
+      legend: {
+          display: true,
+          position: 'top',
+          // labels: {
+          //     fontColor: 'rgb(255, 99, 132)'
+          // }
+      },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear',
+                time: {
+                    unit: 'day',
+                    displayFormats: {
+                        day: 'MMM D'
+                    }
+                }
+            }],
+            yAxes: [{
+              // type: 'logarithmic',
+              ticks: {
+                  min: -10,
+                  max: 10
+              },
+              scaleLabel: {
+                display: true,
+                labelString: "Block height relative to network consensus"
+              }
+            }]
+        }
+    }
+  });
+
+</script>
+
+{% endblock %}

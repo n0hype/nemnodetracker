@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - NEM node tracker</title>
+      {% else %}
+      <title>Welcome to NEM node tracker</title>
+      {% endif %}
+
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="static/style.css">
+      <link rel="stylesheet" type="text/css" href="static/Chart.min.css">
+
+    </head>
+    <body>
+
+        <!-- <div>NEM node tracker: <a href="/index">Home</a></div>
+        <hr> -->
+        <h1>NEM node tracker</h1>
+        
+        {% block content %}{% endblock %}
+    </body>
+</html>
